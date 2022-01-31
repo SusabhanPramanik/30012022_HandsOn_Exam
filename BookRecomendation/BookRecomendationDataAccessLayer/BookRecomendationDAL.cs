@@ -45,10 +45,7 @@ namespace BookRecomendationDataAccessLayer
                     conOb = new SqlCommand(@"SELECT book_isbn,rating,review FROM dbo.Reviews", conObj);
                     conObj.Open();
                     SqlDataReader drDept = conOb.ExecuteReader();
-                    //while (drDept.Read())
-                    //{
-                    //    Console.WriteLine(drDept["Name"]+" | "+drDept["GroupName"]);
-                    //}
+                    
                     List<BookDTO> lstDept = new List<BookDTO>();
                     while (drDept.Read())
                     {
@@ -58,11 +55,7 @@ namespace BookRecomendationDataAccessLayer
                         deptFromReader.review = drDept["review"].ToString();
 
                     lstDept.Add(deptFromReader);
-                        //lstDept.Add(new DeptDetailsDTO()
-                        //{
-                        //    DeptName = drDept["Name"].ToString(),
-                        //    DeptGroupName = drDept["GroupName"].ToString()
-                        //});
+                        
                     }
                     return lstDept;
                 }
@@ -77,10 +70,42 @@ namespace BookRecomendationDataAccessLayer
             }
         }
 
-       /* public void SaveReviewForBookToDB()
+        public int SaveReviewForBookToDB(BookDTO dptobj, out int dptid)
         {
+        try
+        {
+            conOb = new SqlCommand();
+            conOb.CommandText = @"uspAddNewDept";
+            conOb.CommandType = System.Data.CommandType.StoredProcedure;
+            conOb.Connection = conObj;
+            conOb.Parameters.AddWithValue("@book_isbn", dptobj.book_isbn);
+            conOb.Parameters.AddWithValue("@rating", dptobj.rating);
+            conOb.Parameters.AddWithValue("@review", dptobj.review);
+            conOb.Parameters.AddWithValue("@deptDate", System.DateTime.Now);
+            SqlParameter returnvalue = new SqlParameter();
+            returnvalue.Direction = ParameterDirection.ReturnValue;
+            returnvalue.SqlDbType = SqlDbType.Int;
+            conOb.Parameters.Add(returnvalue);
+            SqlParameter outputValue = new SqlParameter();
+            outputValue.Direction = ParameterDirection.Output;
+            outputValue.SqlDbType = SqlDbType.Int;
+            outputValue.ParameterName = "@deptID";
+            conOb.Parameters.Add(outputValue);
+            conObj.Open();
+            conOb.ExecuteNonQuery();
+            dptid = Convert.ToInt32(outputValue.Value);
+            return Convert.ToInt32(returnvalue.Value);
 
-        }*/
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        finally
+        {
+            conObj.Close();
+        }
+    }
 
 }
 

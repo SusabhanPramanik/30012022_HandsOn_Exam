@@ -43,7 +43,7 @@ namespace BookRecomendationBusinessLayer
         public int AddReviewForBook(BookDTO newDeptobj, out int newDeptid)
         {
             BookRecomendationDAL dalObj = new BookRecomendationDAL();
-            return dalObj.InsertNewDepartment(newdeptobj, out newdeptid);
+            return dalObj.SaveReviewForBookToDB(newdeptobj, out newdeptid);
         }
 
     }
