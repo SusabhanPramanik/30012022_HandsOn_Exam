@@ -19,7 +19,7 @@ namespace BookRecomendationDataAccessLayer
         {
             conObj = new SqlConnection(ConfigurationManager.ConnectionStrings["BookRecomendation"].ConnectionString);
 
-
+            contextObj = new BookRecomendation();
         }
 
         public int ConnectionToDB()
@@ -70,7 +70,7 @@ namespace BookRecomendationDataAccessLayer
             }
         }
 
-        public int SaveReviewForBookToDB(BookDTO dptobj, out int dptid)
+        /*public int SaveReviewForBookToDB(BookDTO dptobj, out int dptid)
         {
         try
         {
@@ -104,8 +104,7 @@ namespace BookRecomendationDataAccessLayer
         finally
         {
             conObj.Close();
-        }
+        }*/
     }
 
-}
 
